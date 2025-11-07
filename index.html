@@ -45,7 +45,10 @@
 <body>
   <h2>Mark Attendance</h2>
   <form id="attendanceForm">
-    <input type="email" id="email" placeholder="Enter your email" required />
+    <input type="email" id="email" placeholder="Enter your Email" required />
+    <input type="text" id="rollno" placeholder="Enter your Roll No" required />
+    <input type="text" id="year" placeholder="Enter your Year" required />
+    <input type="text" id="section" placeholder="Enter your Section" required />
     <input type="hidden" id="session_id" />
     <input type="hidden" id="token" />
     <input type="hidden" id="lat" />
@@ -79,6 +82,9 @@
 
       const data = {
         email: document.getElementById("email").value,
+        rollno: document.getElementById("rollno").value,
+        year: document.getElementById("year").value,
+        section: document.getElementById("section").value,
         session_id: document.getElementById("session_id").value,
         token: document.getElementById("token").value,
         lat: document.getElementById("lat").value,
