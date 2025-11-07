@@ -78,7 +78,7 @@
     // Form submission
     document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const webhookUrl = "https://priyanshupaliwal06.app.n8n.cloud/webhook-test/attendance"; // paste from your n8n Webhook node
+      const webhookUrl = "https://priyanshupaliwal06.app.n8n.cloud/webhook/attendance"; // paste from your n8n Webhook node
 
       const data = {
         email: document.getElementById("email").value,
