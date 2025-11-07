@@ -47,6 +47,7 @@
   <form id="attendanceForm">
     <input type="email" id="email" placeholder="Enter your email" required />
     <input type="hidden" id="session_id" />
+    <input type="hidden" id="token" />
     <input type="hidden" id="lat" />
     <input type="hidden" id="lng" />
     <button type="submit">Submit Attendance</button>
@@ -58,6 +59,7 @@
     // Extract session_id from URL
     const urlParams = new URLSearchParams(window.location.search);
     document.getElementById("session_id").value = urlParams.get("session_id");
+    document.getElementById("token").value = urlParams.get("token");
 
     // Capture live location
     navigator.geolocation.getCurrentPosition(
@@ -78,6 +80,7 @@
       const data = {
         email: document.getElementById("email").value,
         session_id: document.getElementById("session_id").value,
+        token: document.getElementById("token").value,
         lat: document.getElementById("lat").value,
         lng: document.getElementById("lng").value,
       };
