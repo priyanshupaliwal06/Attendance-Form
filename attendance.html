@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Attendance</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    form {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h2>Mark Attendance</h2>
+  <form id="attendanceForm">
+    <input type="email" id="email" placeholder="Enter your email" required />
+    <input type="hidden" id="session_id" />
+    <input type="hidden" id="lat" />
+    <input type="hidden" id="lng" />
+    <button type="submit">Submit Attendance</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    // Extract session_id from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById("session_id").value = urlParams.get("session_id");
+
+    // Capture live location
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        document.getElementById("lat").value = pos.coords.latitude;
+        document.getElementById("lng").value = pos.coords.longitude;
+      },
+      (err) => {
+        document.getElementById("status").innerText = "⚠️ Please allow location access to mark attendance.";
+      }
+    );
+
+    // Form submission
+    document.getElementById("attendanceForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const webhookUrl = "YOUR_N8N_WEBHOOK_URL"; // paste from your n8n Webhook node
+
+      const data = {
+        email: document.getElementById("email").value,
+        session_id: document.getElementById("session_id").value,
+        lat: document.getElementById("lat").value,
+        lng: document.getElementById("lng").value,
+      };
+
+      const res = await fetch(webhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json().catch(() => ({}));
+      document.getElementById("status").innerText = result.message || "✅ Attendance submitted successfully!";
+    });
+  </script>
+</body>
+</html>
